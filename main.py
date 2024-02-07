@@ -21,7 +21,7 @@ def evaluate_question(question):
     prompt = question['stem'] + "\n"
     for choice in question['choices']:
         prompt += f"{choice['label']}: {choice['text']}\n"
-    inputs = tokenizer(prompt, return_tensors="pt", padding=True)
+    inputs = tokenizer.encode(prompt, return_tensors='pt')
     output = model.generate(inputs, max_length=100, no_repeat_ngram_size=3,
                             temperature=0.7,
                             early_stopping=True)
