@@ -1,5 +1,3 @@
-import torch
-from transformers import LlamaTokenizer, LlamaForCausalLM
 import json
 
 from transformers import AutoTokenizer, AutoModelForCausalLM
@@ -16,6 +14,7 @@ with open('dataset/train_rand_split.jsonl', 'r') as f:
     for line in f:
         data = json.loads(line)
         dataset.append(data)
+        break
 
 
 def evaluate_question(question):
@@ -31,4 +30,5 @@ def evaluate_question(question):
 for item in dataset:
     question = item['question']
     answer_key = item['answerKey']
+
     selected_answer = evaluate_question(question)
