@@ -5,8 +5,6 @@ from huggingface_hub import login
 
 login("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")
 tokenizer = AutoTokenizer.from_pretrained("meta-llama/Llama-2-7b-hf")
-if tokenizer.pad_token is None:
-    tokenizer.add_special_tokens({'pad_token': '[PAD]'})
 model = AutoModelForCausalLM.from_pretrained("meta-llama/Llama-2-7b-hf")
 data_path = "dataset/train_rand_split.jsonl"
 dataset = []
@@ -25,7 +23,6 @@ def evaluate_question(question):
     output = model.generate(inputs, max_length=100, no_repeat_ngram_size=3,
                             temperature=0.7,
                             early_stopping=True)
-
     generated_text = tokenizer.decode(output[0], skip_special_tokens=True)
     print(generated_text)
     return generated_text
