@@ -32,27 +32,25 @@ def evaluate_logic(question):
     for choice in question['choices']:
         choices.append(choice['text'])
     encoded_inputs = [tokenizer.encode(prompt + " " + choice, return_tensors='pt') for choice in choices]
-
-    # 对每个选项进行模型预测并获取logits
     logits_list = []
     for encoded_input in encoded_inputs:
-        with torch.no_grad():  # 不计算梯度
+        with torch.no_grad():
             outputs = model(encoded_input)
             logits = outputs.logits
             logits_list.append(logits)
     scores = [logit[:, -1, :].max(1).values.item() for logit in logits_list]
     best_choice_index = scores.index(max(scores))
-    best_choice = chr(65 + best_choice_index)  # 65是ASCII码表中大写字母A的值
+    best_choice = chr(65 + best_choice_index)
 
     print(best_choice)
     return best_choice
 
 
 num_correct = 0
-for item in dataset[:10]:
+for item in dataset[:100]:
     question = item['question']
     answer_key = item['answerKey']
     output = evaluate_logic(question)
     if output == answer_key:
         num_correct += 1
-print(num_correct / 10)
+print(num_correct / 100)
