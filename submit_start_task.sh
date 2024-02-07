@@ -7,5 +7,5 @@
 #SBATCH -o submittask%j.out  # Specify where to save terminal output, %j = job ID will be filled by slurm
 
 module load miniconda/22.11.1-1
-conda activate start_code
+conda activate 696hw1
 python main.py
