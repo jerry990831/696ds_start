@@ -13,7 +13,6 @@ with open('dataset/train_rand_split.jsonl', 'r') as f:
     for line in f:
         data = json.loads(line)
         dataset.append(data)
-        break
 
 
 # def evaluate_question(question):
@@ -29,7 +28,7 @@ with open('dataset/train_rand_split.jsonl', 'r') as f:
 #     return generated_text
 def evaluate_logic(question):
     prompt = question['stem'] + "\n"
-    choices =[]
+    choices = []
     for choice in question['choices']:
         choices.append(choice['text'])
     encoded_inputs = [tokenizer.encode(prompt + " " + choice, return_tensors='pt') for choice in choices]
@@ -47,7 +46,8 @@ def evaluate_logic(question):
 
     print(f"最佳答案选项是: {best_choice}")
 
-for item in dataset:
+
+for item in dataset[:10]:
     question = item['question']
     answer_key = item['answerKey']
     evaluate_logic(question)
