@@ -16,7 +16,7 @@ with open('dataset/train_rand_split.jsonl', 'r') as f:
 
 
 def evaluate_question(question):
-    prompt = question['stem'] + "\n"
+    prompt = "choose an answer of this question \n"+question['stem'] + "\n"
     for choice in question['choices']:
         prompt += f"{choice['label']}: {choice['text']}\n"
     inputs = tokenizer.encode(prompt, return_tensors='pt')
