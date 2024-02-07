@@ -1,5 +1,6 @@
 import json
 
+import torch
 from transformers import AutoTokenizer, AutoModelForCausalLM
 from huggingface_hub import login
 
@@ -15,20 +16,38 @@ with open('dataset/train_rand_split.jsonl', 'r') as f:
         break
 
 
-def evaluate_question(question):
-    prompt = "choose an answer of this question with any reason \n" + question['stem'] + "\n"
+# def evaluate_question(question):
+#     prompt = "choose an answer of this question with any reason \n" + question['stem'] + "\n"
+#     for choice in question['choices']:
+#         prompt += f"{choice['label']}: {choice['text']}\n"
+#     inputs = tokenizer.encode(prompt, return_tensors='pt')
+#     output = model.generate(inputs, max_length=300, no_repeat_ngram_size=3,
+#                             temperature=1)
+#     generated_text = tokenizer.decode(output[0], skip_special_tokens=True)
+#     print("________________________________________")
+#     print(generated_text)
+#     return generated_text
+def evaluate_logic(question):
+    prompt = question['stem'] + "\n"
+    choices =[]
     for choice in question['choices']:
-        prompt += f"{choice['label']}: {choice['text']}\n"
-    inputs = tokenizer.encode(prompt, return_tensors='pt')
-    output = model.generate(inputs, max_length=300, no_repeat_ngram_size=3,
-                            temperature=1)
-    generated_text = tokenizer.decode(output[0], skip_special_tokens=True)
-    print("________________________________________")
-    print(generated_text)
-    return generated_text
+        choices.append(choice['text'])
+    encoded_inputs = [tokenizer.encode(prompt + " " + choice, return_tensors='pt') for choice in choices]
 
+    # 对每个选项进行模型预测并获取logits
+    logits_list = []
+    for encoded_input in encoded_inputs:
+        with torch.no_grad():  # 不计算梯度
+            outputs = model(encoded_input)
+            logits = outputs.logits
+            logits_list.append(logits)
+    scores = [logit[:, -1, :].max(1).values.item() for logit in logits_list]
+    best_choice_index = scores.index(max(scores))
+    best_choice = chr(65 + best_choice_index)  # 65是ASCII码表中大写字母A的值
+
+    print(f"最佳答案选项是: {best_choice}")
 
 for item in dataset:
     question = item['question']
     answer_key = item['answerKey']
-    selected_answer = evaluate_question(question)
+    evaluate_logic(question)
