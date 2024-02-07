@@ -16,13 +16,12 @@ with open('dataset/train_rand_split.jsonl', 'r') as f:
 
 
 def evaluate_question(question):
-    prompt = "choose an answer of this question \n"+question['stem'] + "\n"
+    prompt = "choose an answer of this question with any reason \n"+question['stem'] + "\n"
     for choice in question['choices']:
         prompt += f"{choice['label']}: {choice['text']}\n"
     inputs = tokenizer.encode(prompt, return_tensors='pt')
-    output = model.generate(inputs, max_length=100, no_repeat_ngram_size=3,
-                            temperature=0.7,
-                            early_stopping=True)
+    output = model.generate(inputs, max_length=300, no_repeat_ngram_size=3,
+                            temperature=0.5)
     generated_text = tokenizer.decode(output[0], skip_special_tokens=True)
     print(generated_text)
     return generated_text
