@@ -22,9 +22,13 @@ def evaluate_question(question):
     for choice in question['choices']:
         prompt += f"{choice['label']}: {choice['text']}\n"
     inputs = tokenizer(prompt, return_tensors="pt", padding=True)
-    outputs = model(**inputs)
-    print(outputs)
-    return outputs
+    output = model.generate(inputs, max_length=100, no_repeat_ngram_size=3,
+                            temperature=0.7,
+                            early_stopping=True)
+
+    generated_text = tokenizer.decode(output[0], skip_special_tokens=True)
+    print(generated_text)
+    return generated_text
 
 
 for item in dataset:
