@@ -44,10 +44,15 @@ def evaluate_logic(question):
     best_choice_index = scores.index(max(scores))
     best_choice = chr(65 + best_choice_index)  # 65是ASCII码表中大写字母A的值
 
-    print(f"最佳答案选项是: {best_choice}")
+    print(best_choice)
+    return best_choice
 
 
+num_correct = 0
 for item in dataset[:10]:
     question = item['question']
     answer_key = item['answerKey']
-    evaluate_logic(question)
+    output = evaluate_logic(question)
+    if output == answer_key:
+        num_correct += 1
+print(num_correct / 10)
