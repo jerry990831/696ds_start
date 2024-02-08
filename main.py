@@ -47,10 +47,10 @@ def evaluate_logic(question):
 
 
 num_correct = 0
-for item in dataset[:10]:
+for item in dataset[:50]:
     question = item['question']
     answer_key = item['answerKey']
     output = evaluate_logic(question)
     if output == answer_key:
         num_correct += 1
-print(num_correct / 10)
+print(num_correct / 50)
