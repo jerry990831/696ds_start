@@ -46,7 +46,7 @@ def evaluate_logic(question):
     return best_choice
 
 
-def evaluate_logic_2_shot(question1, question2, answer1):
+def evaluate_logic_1_shot(question1, question2, answer1):
     prompt = "here is an example \n" + question1['stem'] + "\n"
     for choice in question1['choices']:
         prompt += f"{choice['label']}: {choice['text']}\n"
@@ -78,7 +78,7 @@ for i in range(0, 10, 2):
 
     question2 = dataset[i + 1]['question']
     answer_key2 = dataset[i + 1]['answerKey']
-    output = evaluate_logic(question1)
+    output = evaluate_logic_1_shot(question1, question2, answer_key1)
     if output == answer_key2:
         num_correct += 1
 # for item in dataset[:50]:
