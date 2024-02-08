@@ -72,7 +72,7 @@ def evaluate_logic_2_shot(question1, question2, answer1):
 
 num_correct = 0
 dataset = dataset[:10]
-for i in range(10):
+for i in range(0, 10, 2):
     question1 = dataset[i]['question']
     answer_key1 = dataset[i]['answerKey']
 
@@ -81,7 +81,6 @@ for i in range(10):
     output = evaluate_logic(question1)
     if output == answer_key2:
         num_correct += 1
-    i += 2
 # for item in dataset[:50]:
 #     question = item['question']
 #     answer_key = item['answerKey']
