@@ -46,11 +46,46 @@ def evaluate_logic(question):
     return best_choice
 
 
+def evaluate_logic_2_shot(question1, question2, answer1):
+    prompt = "here is an example \n" + question1['stem'] + "\n"
+    for choice in question1['choices']:
+        prompt += f"{choice['label']}: {choice['text']}\n"
+    prompt += "Correct answer is " + answer1
+    prompt += question2['stem'] + "\n"
+    choices = []
+    for choice in question2['choices']:
+        choices.append(choice['text'])
+    encoded_inputs = [tokenizer.encode(prompt + " " + choice, return_tensors='pt') for choice in choices]
+    logits_list = []
+    for encoded_input in encoded_inputs:
+        with torch.no_grad():
+            outputs = model(encoded_input)
+            logits = outputs.logits
+            logits_list.append(logits)
+    scores = [logit[:, -1, :].max(1).values.item() for logit in logits_list]
+    best_choice_index = scores.index(max(scores))
+    best_choice = chr(65 + best_choice_index)
+
+    print(best_choice)
+    return best_choice
+
+
 num_correct = 0
-for item in dataset[:50]:
-    question = item['question']
-    answer_key = item['answerKey']
-    output = evaluate_logic(question)
-    if output == answer_key:
+dataset = dataset[:10]
+for i in range(10):
+    question1 = dataset[i]['question']
+    answer_key1 = dataset[i]['answerKey']
+
+    question2 = dataset[i + 1]['question']
+    answer_key2 = dataset[i + 1]['answerKey']
+    output = evaluate_logic(question1)
+    if output == answer_key2:
         num_correct += 1
-print(num_correct / 50)
+    i += 2
+# for item in dataset[:50]:
+#     question = item['question']
+#     answer_key = item['answerKey']
+#     output = evaluate_logic(question)
+#     if output == answer_key:
+#         num_correct += 1
+print(num_correct / 5)
