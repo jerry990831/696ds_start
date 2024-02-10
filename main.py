@@ -15,17 +15,6 @@ with open('dataset/train_rand_split.jsonl', 'r') as f:
         dataset.append(data)
 
 
-# def evaluate_question(question):
-#     prompt = "choose an answer of this question with any reason \n" + question['stem'] + "\n"
-#     for choice in question['choices']:
-#         prompt += f"{choice['label']}: {choice['text']}\n"
-#     inputs = tokenizer.encode(prompt, return_tensors='pt')
-#     output = model.generate(inputs, max_length=300, no_repeat_ngram_size=3,
-#                             temperature=1)
-#     generated_text = tokenizer.decode(output[0], skip_special_tokens=True)
-#     print("________________________________________")
-#     print(generated_text)
-#     return generated_text
 def evaluate_logic(question):
     prompt = question['stem'] + "\n"
     choices = []
@@ -70,21 +59,19 @@ def evaluate_logic_1_shot(question1, question2, answer1):
     return best_choice
 
 
+def evaluate_question(question):
+    prompt = question['stem'] + "\n"
+    for choice in question['choices']:
+        prompt += f"{choice['label']}: {choice['text']}\n"
+    input_ids = tokenizer.encode(prompt, return_tensors='tf')
+    greedy_output = model.generate(input_ids, max_length=200)
+    print(tokenizer.decode(greedy_output[0], skip_special_tokens=True))
+
+
 num_correct = 0
-dataset = dataset[:30]
-for i in range(0, 10, 2):
+dataset = dataset[:10]
+for i in range(10):
     question1 = dataset[i]['question']
     answer_key1 = dataset[i]['answerKey']
-
-    question2 = dataset[i + 1]['question']
-    answer_key2 = dataset[i + 1]['answerKey']
-    output = evaluate_logic_1_shot(question1, question2, answer_key1)
-    if output == answer_key2:
-        num_correct += 1
-# for item in dataset[:50]:
-#     question = item['question']
-#     answer_key = item['answerKey']
-#     output = evaluate_logic(question)
-#     if output == answer_key:
-#         num_correct += 1
-print(num_correct / 15)
+    evaluate_question(question1)
+    print(answer_key1)
