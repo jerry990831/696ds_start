@@ -63,7 +63,7 @@ def evaluate_question(question):
     prompt = question['stem'] + "\n"
     for choice in question['choices']:
         prompt += f"{choice['label']}: {choice['text']}\n"
-    input_ids = tokenizer.encode(prompt, return_tensors='tf')
+    input_ids = tokenizer.encode(prompt, return_tensors='pt')
     greedy_output = model.generate(input_ids, max_length=200)
     print(tokenizer.decode(greedy_output[0], skip_special_tokens=True))
 
