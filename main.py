@@ -60,12 +60,13 @@ def evaluate_logic_1_shot(question1, question2, answer1):
 
 
 def evaluate_question(question):
-    prompt = question['stem'] + "\n"
+    prompt = "choose a choice in this question"
+    prompt += question['stem'] + "\n"
     for choice in question['choices']:
         prompt += f"{choice['label']}: {choice['text']}\n"
     input_ids = tokenizer.encode(prompt, return_tensors='pt')
     greedy_output = model.generate(input_ids, max_length=200)
-    print(tokenizer.decode(greedy_output[0], skip_special_tokens=True))
+    print(tokenizer.decode(greedy_output[0], skip_special_tokens=True)[len(input_ids):])
 
 
 num_correct = 0
@@ -73,7 +74,7 @@ dataset = dataset[:100]
 for i in range(100):
     question1 = dataset[i]['question']
     answer_key1 = dataset[i]['answerKey']
-    print("Question"+str(i))
+    print("Question" + str(i))
     print("----------------------------------------------------")
     evaluate_question(question1)
     print("----------------------------------------------------")
