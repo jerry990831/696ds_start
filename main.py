@@ -73,5 +73,7 @@ dataset = dataset[:10]
 for i in range(10):
     question1 = dataset[i]['question']
     answer_key1 = dataset[i]['answerKey']
+    print("----------------------------------------------------")
     evaluate_question(question1)
+    print("----------------------------------------------------")
     print(answer_key1)
