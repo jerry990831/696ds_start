@@ -69,10 +69,11 @@ def evaluate_question(question):
 
 
 num_correct = 0
-dataset = dataset[:10]
-for i in range(10):
+dataset = dataset[:100]
+for i in range(100):
     question1 = dataset[i]['question']
     answer_key1 = dataset[i]['answerKey']
+    print("Question"+str(i))
     print("----------------------------------------------------")
     evaluate_question(question1)
     print("----------------------------------------------------")
