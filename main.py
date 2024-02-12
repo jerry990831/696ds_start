@@ -5,7 +5,7 @@ from transformers import AutoTokenizer, AutoModelForCausalLM
 from huggingface_hub import login
 from torch.quantization import quantize_dynamic
 
-torch_device = "cpu" if torch.cuda.is_available() else "cpu"
+torch_device = "cuda" if torch.cuda.is_available() else "cpu"
 login("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")
 tokenizer = AutoTokenizer.from_pretrained("meta-llama/Llama-2-7b-hf")
 data_path = "dataset/train_rand_split.jsonl"
