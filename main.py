@@ -86,6 +86,7 @@ def make_query(model_name, num_shots, dataset, decode_method, num_iter, num_beam
 
     output_file_name = generate_output_file_name(model_name, num_shots, dataset, decode_method, num_iter, num_beams,
                                                  top_p)
+    acc = 0
     with open('./results/' + output_file_name, 'w', encoding='utf-8') as f:
         for i in range(num_iter):
             input_text, answer = experiment_query_text(num_shots, data)
@@ -125,7 +126,9 @@ def make_query(model_name, num_shots, dataset, decode_method, num_iter, num_beam
 
             f.write('Next:\n')
             f.write('Generation: \n')
-            f.write(generated_text[len(input_text):] + '\n')
+            answer = generated_text[len(input_text):len(input_text)+24]
+            f.write(answer + '\n')
+            f.write(answer[-1] + '\n')
             f.write('Ground Truth Answer: \n')
             f.write(answer + '\n')
 
@@ -135,6 +138,6 @@ def make_query(model_name, num_shots, dataset, decode_method, num_iter, num_beam
 model_name = 'meta-llama/Llama-2-7b-hf'
 torch_device = "cuda" if torch.cuda.is_available() else "cpu"
 
-num_shots = 5
+num_shots = 1
 commonsenseQA = load_commonsenseQA()
 make_query(model_name, num_shots, 'commonsenseQA', 'greedy', 300)
