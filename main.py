@@ -24,6 +24,7 @@ def evaluate_question(question, decode_method="greedy"):
     print(prompt)
     print("--------------------------")
     input_ids = tokenizer.encode(prompt, return_tensors='pt').to(torch_device)
+    output = []
     if decode_method == "greedy":
         output = model.generate(input_ids, max_length=200)
     print(tokenizer.decode(output[0], skip_special_tokens=True)[len(input_ids):])
@@ -34,5 +35,4 @@ dataset = dataset[:100]
 for i in range(100):
     question1 = dataset[i]['question']
     answer_key1 = dataset[i]['answerKey']
-    evaluate_question(question1)
-
+    evaluate_question(question1, decode_method="greedy")
