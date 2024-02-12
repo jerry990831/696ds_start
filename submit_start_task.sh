@@ -1,6 +1,7 @@
 #!/bin/bash
-#SBATCH -p gpu		  # Partition
-#SBATCH -G 2  # Number of GPUs
+#SBATCH -p gpu-preempt		  # Partition
+#SBATCH --constraint vram40
+#SBATCH -G 1  # Number of GPUs
 #SBATCH -c 2  # Number of CPU cores
 #SBATCH --mem=50GB  # Requested Memory
 #SBATCH -t 0-06:00:00  # Zero day, one hour
