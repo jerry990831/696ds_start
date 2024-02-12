@@ -143,4 +143,5 @@ torch_device = "cuda" if torch.cuda.is_available() else "cpu"
 
 num_shots = 1
 commonsenseQA = load_commonsenseQA()
-make_query(model_name, num_shots, 'commonsenseQA', 'greedy', 1)
+for num_shots in [2,5]:
+    make_query(model_name, num_shots, 'commonsenseQA', 'greedy', 300)
