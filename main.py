@@ -9,10 +9,7 @@ torch_device = "cuda" if torch.cuda.is_available() else "cpu"
 login("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")
 tokenizer = AutoTokenizer.from_pretrained("meta-llama/Llama-2-7b-hf")
 data_path = "dataset/train_rand_split.jsonl"
-model = AutoModelForCausalLM.from_pretrained("meta-llama/Llama-2-7b-hf").to(torch_device)
-
-# Apply dynamic quantization
-model_quantized = quantize_dynamic(model, {torch.nn.Linear}, dtype=torch.qint8)
+model = AutoModelForCausalLM.from_pretrained("meta-llama/Llama-2-7b-hf").to(torch_device).half()
 dataset = []
 with open('dataset/train_rand_split.jsonl', 'r') as f:
     for line in f:
