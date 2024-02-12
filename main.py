@@ -3,7 +3,6 @@ import json
 import torch
 from transformers import AutoTokenizer, AutoModelForCausalLM
 from huggingface_hub import login
-from torch.quantization import quantize_dynamic
 
 torch_device = "cuda" if torch.cuda.is_available() else "cpu"
 login("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")
