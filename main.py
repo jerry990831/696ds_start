@@ -128,9 +128,6 @@ def make_query(model_name, num_shots, dataset, decode_method, num_iter, num_beam
             f.write('Generation: \n')
             generated_answer = generated_text[len(input_text):]
             if len(generated_answer) > 24:
-                print(generated_answer[22])
-                print(answer)
-                print(generated_answer[22] == answer)
                 if generated_answer[22] == answer:
                     acc += 1
             f.write(generated_answer + '\n')
@@ -144,7 +141,6 @@ def make_query(model_name, num_shots, dataset, decode_method, num_iter, num_beam
 model_name = 'meta-llama/Llama-2-7b-hf'
 torch_device = "cuda" if torch.cuda.is_available() else "cpu"
 
-num_shots = 1
 commonsenseQA = load_commonsenseQA()
-for num_shots in [2]:
-    make_query(model_name, num_shots, 'commonsenseQA', 'greedy', 5)
+for num_shots in [2, 5]:
+    make_query(model_name, num_shots, 'commonsenseQA', 'greedy', 300)
