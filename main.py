@@ -127,7 +127,7 @@ def make_query(model_name, num_shots, dataset, decode_method, num_iter, num_beam
             f.write('Next:\n')
             f.write('Generation: \n')
             generated_answer = generated_text[len(input_text):]
-            if len(generated_answer) >= 24:
+            if len(generated_answer) > 24:
                 if generated_answer[24] == answer:
                     acc += 1
 
