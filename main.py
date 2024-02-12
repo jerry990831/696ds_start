@@ -10,7 +10,6 @@ torch_device = "cuda" if torch.cuda.is_available() else "cpu"
 login("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")
 
 
-
 def generate_output_file_name(model_name, num_shots, dataset, decode_method, num_iter, num_beams, top_p):
     model_name = model_name.split('/')[-1]
 
@@ -136,6 +135,6 @@ def make_query(model_name, num_shots, dataset, decode_method, num_iter, num_beam
 model_name = 'meta-llama/Llama-2-7b-hf'
 torch_device = "cuda" if torch.cuda.is_available() else "cpu"
 
-num_shots = 0
+num_shots = 5
 commonsenseQA = load_commonsenseQA()
 make_query(model_name, num_shots, 'commonsenseQA', 'greedy', 300)
