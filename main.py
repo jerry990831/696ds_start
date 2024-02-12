@@ -128,7 +128,8 @@ def make_query(model_name, num_shots, dataset, decode_method, num_iter, num_beam
             f.write('Generation: \n')
             generated_answer = generated_text[len(input_text):]
             if len(generated_answer) > 24:
-                if generated_answer[24] == answer:
+
+                if generated_answer[23] == answer:
                     acc += 1
 
             f.write(generated_answer + '\n')
@@ -144,4 +145,4 @@ torch_device = "cuda" if torch.cuda.is_available() else "cpu"
 
 num_shots = 1
 commonsenseQA = load_commonsenseQA()
-make_query(model_name, num_shots, 'commonsenseQA', 'greedy', 300)
+make_query(model_name, num_shots, 'commonsenseQA', 'greedy', 1)
