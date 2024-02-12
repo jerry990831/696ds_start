@@ -126,12 +126,17 @@ def make_query(model_name, num_shots, dataset, decode_method, num_iter, num_beam
 
             f.write('Next:\n')
             f.write('Generation: \n')
-            answer = generated_text[len(input_text):]
-            f.write(answer + '\n')
+            generated_answer = generated_text[len(input_text):]
+            if len(generated_answer) >= 24:
+                if answer[24] == answer:
+                    acc += 1
+
+            f.write(generated_answer + '\n')
             f.write('Ground Truth Answer: \n')
             f.write(answer + '\n')
 
         f.write(f'Average decoding time is {seconds / num_iter} seconds')
+        f.write(f'decoding accuracy is {acc / num_iter} ')
 
 
 model_name = 'meta-llama/Llama-2-7b-hf'
