@@ -128,13 +128,9 @@ def make_query(model_name, num_shots, dataset, decode_method, num_iter, num_beam
             f.write('Generation: \n')
             generated_answer = generated_text[len(input_text):]
             if len(generated_answer) > 24:
-
                 if generated_answer[23] == answer:
                     acc += 1
-
             f.write(generated_answer + '\n')
-            f.write(generated_answer[23] + '\n')
-            f.write(generated_answer[24] + '\n')
             f.write('Ground Truth Answer: \n')
             f.write(answer + '\n')
 
