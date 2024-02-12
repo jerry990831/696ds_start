@@ -126,9 +126,8 @@ def make_query(model_name, num_shots, dataset, decode_method, num_iter, num_beam
 
             f.write('Next:\n')
             f.write('Generation: \n')
-            answer = generated_text[len(input_text):len(input_text)+24]
+            answer = generated_text[len(input_text):]
             f.write(answer + '\n')
-            f.write(answer[-1] + '\n')
             f.write('Ground Truth Answer: \n')
             f.write(answer + '\n')
 
