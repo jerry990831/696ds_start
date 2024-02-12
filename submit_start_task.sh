@@ -1,5 +1,5 @@
 #!/bin/bash
-#SBATCH -p gpu-preempt		  # Partition
+#SBATCH -p gpu		  # Partition
 #SBATCH -G 1  # Number of GPUs
 #SBATCH -c 2  # Number of CPU cores
 #SBATCH --mem=30GB  # Requested Memory
