@@ -8,6 +8,8 @@ login("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")
 tokenizer = AutoTokenizer.from_pretrained("meta-llama/Llama-2-7b-hf")
 model = AutoModelForCausalLM.from_pretrained("meta-llama/Llama-2-7b-hf")
 data_path = "dataset/train_rand_split.jsonl"
+torch_device = "cuda" if torch.cuda.is_available() else "cpu"
+
 dataset = []
 with open('dataset/train_rand_split.jsonl', 'r') as f:
     for line in f:
