@@ -4,11 +4,11 @@ import torch
 from transformers import AutoTokenizer, AutoModelForCausalLM
 from huggingface_hub import login
 
+torch_device = "cuda" if torch.cuda.is_available() else "cpu"
 login("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")
 tokenizer = AutoTokenizer.from_pretrained("meta-llama/Llama-2-7b-hf")
-model = AutoModelForCausalLM.from_pretrained("meta-llama/Llama-2-7b-hf")
+model = AutoModelForCausalLM.from_pretrained("meta-llama/Llama-2-7b-hf").to(torch_device)
 data_path = "dataset/train_rand_split.jsonl"
-torch_device = "cuda" if torch.cuda.is_available() else "cpu"
 
 dataset = []
 with open('dataset/train_rand_split.jsonl', 'r') as f:
