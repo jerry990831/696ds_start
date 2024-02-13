@@ -185,6 +185,7 @@ def make_query_logistic(model_name, model, tokenizer, num_shots, dataset, decode
             start_time = time.time()
             input_text_list, answer = experiment_query_text_logitic(num_shots, data)
             # Encode input text and generate output
+            best_score = -1
             for index, input_text in enumerate(input_text_list):
                 encoded_input = tokenizer.encode(input_text, return_tensors='pt').to(torch_device)
                 outputs = model(encoded_input)
