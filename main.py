@@ -142,5 +142,5 @@ model_name = 'meta-llama/Llama-2-7b-hf'
 torch_device = "cuda" if torch.cuda.is_available() else "cpu"
 
 commonsenseQA = load_commonsenseQA()
-for num_shots in [2, 5]:
-    make_query(model_name, num_shots, 'commonsenseQA', 'greedy', 300)
+make_query(model_name, 2, 'commonsenseQA', 'beam', 300, num_beams=2)
+make_query(model_name, 2, 'commonsenseQA', 'beam', 300, num_beams=5)
