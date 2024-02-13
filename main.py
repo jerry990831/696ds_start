@@ -142,7 +142,7 @@ def make_query(model_name, model, tokenizer, num_shots, dataset, decode_method, 
                     max_new_tokens=max_new_tokens,
                     do_sample=True,
                     top_p=top_p,
-                    top_k=0
+                    top_k=5
                 )
 
             generated_text = tokenizer.decode(output[0], skip_special_tokens=True)
@@ -210,7 +210,5 @@ torch_device = "cuda" if torch.cuda.is_available() else "cpu"
 model = AutoModelForCausalLM.from_pretrained(model_name).to(torch_device)
 tokenizer = AutoTokenizer.from_pretrained(model_name)
 commonsenseQA = load_commonsenseQA()
-make_query_logistic(model_name, model, tokenizer, 0, 'commonsenseQA', 'logistic', 300)
-make_query_logistic(model_name, model, tokenizer, 2, 'commonsenseQA', 'logistic', 300)
-make_query_logistic(model_name, model, tokenizer, 5, 'commonsenseQA', 'logistic', 300)
+make_query(model_name, model, tokenizer, 0, 'commonsenseQA', 'nucleus', 300)
 
