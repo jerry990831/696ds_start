@@ -62,7 +62,7 @@ def experiment_query_text(num_shots: int, data):
     return query, random_elements[-1]['answerKey']
 
 
-def make_query(model_name, num_shots, dataset, decode_method, num_iter, num_beams=0, top_p=0.0):
+def make_query(model_name, model, tokenizer, num_shots, dataset, decode_method, num_iter, num_beams=0, top_p=0.0):
     if decode_method == 'greedy':
         print(
             f'Generating queries with {model_name}, {num_shots}-shot with dataset {dataset}, using {decode_method} method to decode.\n')
@@ -73,10 +73,6 @@ def make_query(model_name, num_shots, dataset, decode_method, num_iter, num_beam
         print(
             f'Generating queries with {model_name}, {num_shots}-shot with dataset {dataset}, using {decode_method} method to decode, top p is {top_p}.\n')
     print(f'Query number: {num_iter} \n')
-    # Load the model - make sure to use the correct model class for text generation (e.g., AutoModelForCausalLM)
-    model = AutoModelForCausalLM.from_pretrained(model_name).to(torch_device)
-    # Load the tokenizer
-    tokenizer = AutoTokenizer.from_pretrained(model_name)
 
     max_new_tokens = 30 * num_shots + 20
     seconds = 0
@@ -140,7 +136,10 @@ def make_query(model_name, num_shots, dataset, decode_method, num_iter, num_beam
 
 model_name = 'meta-llama/Llama-2-7b-hf'
 torch_device = "cuda" if torch.cuda.is_available() else "cpu"
-
+model = AutoModelForCausalLM.from_pretrained(model_name).to(torch_device)
+tokenizer = AutoTokenizer.from_pretrained(model_name)
 commonsenseQA = load_commonsenseQA()
-make_query(model_name, 2, 'commonsenseQA', 'beam', 300, num_beams=2)
-make_query(model_name, 2, 'commonsenseQA', 'beam', 300, num_beams=5)
+make_query(model_name, model, tokenizer, 2, 'commonsenseQA', 'beam', 300, num_beams=2)
+make_query(model_name, model, tokenizer, 2, 'commonsenseQA', 'beam', 300, num_beams=5)
+make_query(model_name, model, tokenizer, 5, 'commonsenseQA', 'beam', 300, num_beams=2)
+make_query(model_name, model, tokenizer, 5, 'commonsenseQA', 'beam', 300, num_beams=5)
