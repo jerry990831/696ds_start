@@ -210,5 +210,7 @@ torch_device = "cuda" if torch.cuda.is_available() else "cpu"
 model = AutoModelForCausalLM.from_pretrained(model_name).to(torch_device)
 tokenizer = AutoTokenizer.from_pretrained(model_name)
 commonsenseQA = load_commonsenseQA()
-make_query_logistic(model_name, model, tokenizer, 0, 'commonsenseQA', 'logistic', 10)
+make_query_logistic(model_name, model, tokenizer, 0, 'commonsenseQA', 'logistic', 300)
+make_query_logistic(model_name, model, tokenizer, 2, 'commonsenseQA', 'logistic', 300)
+make_query_logistic(model_name, model, tokenizer, 5, 'commonsenseQA', 'logistic', 300)
 
