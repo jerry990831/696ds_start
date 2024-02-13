@@ -186,7 +186,7 @@ def make_query_logistic(model_name, model, tokenizer, num_shots, dataset, decode
             input_text_list, answer = experiment_query_text_logitic(num_shots, data)
             # Encode input text and generate output
             for index, input_text in enumerate(input_text_list):
-                encoded_input = tokenizer.encode(input_text, return_tensors='pt')
+                encoded_input = tokenizer.encode(input_text, return_tensors='pt').to(torch_device)
                 outputs = model(encoded_input).to(torch_device)
                 logits = outputs.logits
                 score = logits[:, -1, :].max(1).values.item()
