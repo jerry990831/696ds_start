@@ -48,7 +48,7 @@ def experiment_query_text(num_shots: int, data):
     """
 
     random_elements = random.sample(data, num_shots + 1)
-    query = 'Choose an answer of these questions with any reason.\n'
+    query = ''
     for question in random_elements[:-1]:
         q = question['question']
         query += q['stem'] + '\n'
@@ -57,6 +57,8 @@ def experiment_query_text(num_shots: int, data):
         query += 'The correct answer is ' + question['answerKey'] + '\n\n'
 
     q = random_elements[-1]['question']
+    query += 'Fill in the correct option for the below question from the given choices like the above examples with a ' \
+             'brief explanation\n '
     query += q['stem'] + '\n'
     for choice in q['choices']:
         query += choice['label'] + ': ' + choice['text'] + '\n'
