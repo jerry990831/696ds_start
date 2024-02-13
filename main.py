@@ -22,6 +22,7 @@ def generate_output_file_name(model_name, num_shots, dataset, decode_method, num
     elif decode_method == 'logistic':
         return f'result_{model_name}_{num_shots}_{dataset}_{decode_method}_{num_iter}.txt'
 
+
 def load_commonsenseQA():
     file_path = "dataset/train_rand_split.jsonl"
 
@@ -210,5 +211,6 @@ torch_device = "cuda" if torch.cuda.is_available() else "cpu"
 model = AutoModelForCausalLM.from_pretrained(model_name).to(torch_device)
 tokenizer = AutoTokenizer.from_pretrained(model_name)
 commonsenseQA = load_commonsenseQA()
-make_query(model_name, model, tokenizer, 0, 'commonsenseQA', 'nucleus', 300)
-
+make_query(model_name, model, tokenizer, 0, 'commonsenseQA', 'nucleus', 300, top_p=0.97)
+make_query(model_name, model, tokenizer, 2, 'commonsenseQA', 'nucleus', 300, top_p=0.97)
+make_query(model_name, model, tokenizer, 5, 'commonsenseQA', 'nucleus', 300, top_p=0.97)
