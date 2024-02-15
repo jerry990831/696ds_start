@@ -215,6 +215,7 @@ def make_query_logistic(model_name, model, tokenizer, num_shots, dataset, decode
 
 model_name = 'meta-llama/Llama-2-7b-hf'
 torch_device = "cuda" if torch.cuda.is_available() else "cpu"
+print(torch_device)
 model = AutoModelForCausalLM.from_pretrained(model_name).to(torch_device)
 tokenizer = AutoTokenizer.from_pretrained(model_name)
 commonsenseQA = load_commonsenseQA()
