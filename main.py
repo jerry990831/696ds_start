@@ -108,7 +108,7 @@ def make_query(model_name, model, tokenizer, num_shots, dataset, decode_method, 
             f'Generating queries with {model_name}, {num_shots}-shot with dataset {dataset}, using {decode_method} method to decode.\n')
     print(f'Query number: {num_iter} \n')
 
-    max_new_tokens = 2
+    max_new_tokens = 5
     seconds = 0
     data = []
     if dataset == 'commonsenseQA':
