@@ -194,8 +194,9 @@ def make_query_logistic(model_name, model, tokenizer, num_shots, dataset, decode
                 outputs = model.generate(encoded_input)
                 logits = outputs.logits
                 generated_text = tokenizer.decode(outputs[0], skip_special_tokens=True)
-                print(input_text)
-                print(generated_text)
+                f.write(input_text + '\n')
+                f.write("____________________\n")
+                f.write(generated_text + '\n')
                 score = logits[:, -1, :].max(1).values.item()
                 if score > best_score:
                     best_score = score
