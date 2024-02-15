@@ -193,6 +193,8 @@ def make_query_logistic(model_name, model, tokenizer, num_shots, dataset, decode
                 encoded_input = tokenizer.encode(input_text, return_tensors='pt').to(torch_device)
                 outputs = model(encoded_input)
                 logits = outputs.logits
+                print(logits)
+                print(logits[:, -1, :])
                 score = logits[:, -1, :].max(1).values.item()
                 if score > best_score:
                     best_score = score
@@ -213,6 +215,5 @@ torch_device = "cuda" if torch.cuda.is_available() else "cpu"
 model = AutoModelForCausalLM.from_pretrained(model_name).to(torch_device)
 tokenizer = AutoTokenizer.from_pretrained(model_name)
 commonsenseQA = load_commonsenseQA()
-make_query(model_name, model, tokenizer, 0, 'commonsenseQA', 'nucleus', 300, top_p=0.97)
-make_query(model_name, model, tokenizer, 2, 'commonsenseQA', 'nucleus', 300, top_p=0.97)
-make_query(model_name, model, tokenizer, 5, 'commonsenseQA', 'nucleus', 300, top_p=0.97)
+make_query_logistic(model_name, model, tokenizer, 0, 'commonsenseQA', 'logistic', 2)
+
