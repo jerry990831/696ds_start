@@ -108,7 +108,7 @@ def make_query(model_name, model, tokenizer, num_shots, dataset, decode_method, 
             f'Generating queries with {model_name}, {num_shots}-shot with dataset {dataset}, using {decode_method} method to decode.\n')
     print(f'Query number: {num_iter} \n')
 
-    max_new_tokens = 30 * num_shots + 20
+    max_new_tokens = 2
     seconds = 0
     data = []
     if dataset == 'commonsenseQA':
@@ -218,5 +218,5 @@ torch_device = "cuda" if torch.cuda.is_available() else "cpu"
 model = AutoModelForCausalLM.from_pretrained(model_name).to(torch_device)
 tokenizer = AutoTokenizer.from_pretrained(model_name)
 commonsenseQA = load_commonsenseQA()
-make_query_logistic(model_name, model, tokenizer, 0, 'commonsenseQA', 'logistic', 2)
+make_query(model_name, model, tokenizer, 2, 'commonsenseQA', 'greedy', 2)
 
