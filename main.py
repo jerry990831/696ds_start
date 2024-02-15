@@ -193,8 +193,9 @@ def make_query_logistic(model_name, model, tokenizer, num_shots, dataset, decode
                 encoded_input = tokenizer.encode(input_text, return_tensors='pt').to(torch_device)
                 outputs = model(encoded_input)
                 logits = outputs.logits
-                print(logits)
-                print(logits[:, -1, :])
+                generated_text = tokenizer.decode(outputs[0], skip_special_tokens=True)
+                print(input_text)
+                print(generated_text)
                 score = logits[:, -1, :].max(1).values.item()
                 if score > best_score:
                     best_score = score
