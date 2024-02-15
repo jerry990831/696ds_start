@@ -191,8 +191,9 @@ def make_query_logistic(model_name, model, tokenizer, num_shots, dataset, decode
             best_score = -1
             for index, input_text in enumerate(input_text_list):
                 encoded_input = tokenizer.encode(input_text, return_tensors='pt').to(torch_device)
-                outputs = model.generate(encoded_input)
+                outputs = model(encoded_input)
                 logits = outputs.logits
+                outputs = model.generate(encoded_input)
                 generated_text = tokenizer.decode(outputs[0], skip_special_tokens=True)
                 f.write(input_text + '\n')
                 f.write("____________________\n")
